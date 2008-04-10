@@ -1,0 +1,151 @@
+#!/bin/false
+# Customized compiler settings.
+# 'source' it from your shell; do not just execute.
+
+
+die_nkhzp79chfabpqyh7e7pa8maf() {
+	echo "ERROR: $*" >& 2
+	exit 1
+}
+
+
+# Returns true if version string $1 refers to
+# a greater/equal version than version string $2.
+version_ge_nkhzp79chfabpqyh7e7pa8maf() {
+	local o1 o2 p1 s1 p2 s2
+	o1="$1" o2="$2"
+	while true; do
+		p1="${o1%%.*}" p2="${o2%%.*}"
+		s1="" s2=""
+		test "$p1" = "$o1" || s1="${o1#*.}"
+		test "$p2" = "$o2" || s2="${o2#*.}"
+		if [ "$p1" -ne "$p2" ]; then
+			test "$p1" -gt "$p2"
+			return
+		fi
+		test -z "$s2" && return
+		test -n "$s1" || return
+		o1="$s1" o2="$s2"
+	done
+}
+
+
+# $1: Item to ask for.
+# Returns true for "Yes". Default is "No".
+# Uses always default for non-interactive shells without prompting.
+want_nkhzp79chfabpqyh7e7pa8maf() {
+	local REPLY
+	case "$-" in
+		*i*)
+			read -p "Do you want $1 (y/N)? " -t 10 REPLY \
+				|| REPLY=n
+			;;
+	esac
+	test -z "$REPLY" && REPLY=n
+	REPLY="${REPLY:0:1}"
+	if [ $REPLY = N -o $REPLY = n ]; then
+		echo "Not using $1."
+		REPLY=1
+	else
+		echo "Using $1."
+		REPLY=0
+	fi
+	return $REPLY
+}
+
+
+GCC_VERSION="$(gcc --version | head -1 | cut -d' ' -f3)"
+if [ -z "$GCC_VERSION" ]; then
+	die_nkhzp79chfabpqyh7e7pa8maf "Cannot determine GCC version!"
+fi
+OLD_IFS="$IFS"
+IFS=$'\n'
+for CPU_ID in $(
+	awk -F '\t*: *' -- '
+		$1=="vendor_id"	{vendor=$2}
+		$1=="cpu family" {cpu=$2}
+		$1=="model" {model=$2}
+		$1=="stepping" {stepping=$2}
+		END {
+			print vendor, cpu, model;
+			print vendor, cpu, model, stepping;
+		}
+	' /proc/cpuinfo
+); do
+	case "$CPU_ID" in
+           # Lookup from http://gentoo-wiki.com/Safe_Cflags
+           # /proc/cpuid: <vendor_id> <cpu family> <model> [ <stepping> ]
+           "AuthenticAMD 6 4") CPU_ARCH=athlon-tbird;;
+           "AuthenticAMD 6 6") CPU_ARCH=athlon-xp;;
+           "AuthenticAMD 15 47") CPU_ARCH=athlon64;;
+           "GenuineIntel 6 6") CPU_ARCH=pentium2;;
+           "GenuineIntel 15 2") CPU_ARCH=pentium4;;
+           "GenuineIntel 15 4") CPU_ARCH=nocona;;
+	esac
+done
+IFS="$OLD_IFS"
+unset OLD_IFS CPU_ID
+COMMON="-pipe"
+if [ -n "$CPU_ARCH" ]; then
+	if want_nkhzp79chfabpqyh7e7pa8maf \
+		"tune for $CPU_ARCH but still generate compatible code"
+	then
+		COMMON="$COMMON -mtune=$CPU_ARCH"
+	else
+		COMMON="$COMMON -march=$CPU_ARCH"
+	fi
+	unset CPU_ARCH
+fi
+COMMON_WARNINGS="-Wall -W -pedantic -Wimplicit -Wreturn-type"
+COMMON_WARNINGS="$COMMON_WARNINGS -Wunused -Wpointer-arith -Wundef"
+COMMON_WARNINGS="$COMMON_WARNINGS -Wwrite-strings -Wconversion -Wno-multichar"
+COMMON_WARNINGS="$COMMON_WARNINGS -Wredundant-decls -Werror"
+if version_ge_nkhzp79chfabpqyh7e7pa8maf "$GCC_VERSION" 3.4.5; then
+	COMMON_WARNINGS="$COMMON_WARNINGS -Winit-self -Wextra"
+fi
+COMMON_WARNINGS="$COMMON_WARNINGS -Wno-parentheses -Wno-uninitialized"
+
+CXX_WARNINGS="-Wcast-qual"
+
+C_WARNINGS="-Wdeclaration-after-statement"
+
+if want_nkhzp79chfabpqyh7e7pa8maf "source-level debugging"; then
+	# There are reports that GCC may generate invalid code for -O0.
+	# However, I want to see this before I believe it!
+	CFLAGS="$COMMON -O0 -fno-omit-frame-pointer -fstack-check"
+	# Use the most expressive debugging format compatible with GDB.
+	# The "3" means to include C preprocessor macros if possible.
+	CFLAGS="$CFLAGS -ggdb3"
+	# Omit unreferenced symbols in the debugging information.
+	# This greatly reduces the amount of symbols in the symbol table
+	# and also omits lots of uninteresting internal symbols for
+	# GDB commands like "info variables".
+	CFLAGS="$CFLAGS -feliminate-unused-debug-symbols"
+else
+	CFLAGS="$COMMON -O3 -DNDEBUG -s -fomit-frame-pointer -fno-stack-check"
+fi
+if want_nkhzp79chfabpqyh7e7pa8maf "maximum warnings"; then
+	CFLAGS="$CFLAGS $COMMON_WARNINGS"
+	CXXFLAGS="$CFLAGS $CXX_WARNINGS"
+	CFLAGS="$CFLAGS $C_WARNINGS"
+else
+	CXXFLAGS="$CFLAGS"
+fi
+if test $# -gt 0 && want_nkhzp79chfabpqyh7e7pa8maf "add flags '$@'"; then
+	CXXFLAGS="$CXXFLAGS $@"
+	CFLAGS="$CFLAGS $@"
+fi
+unset -f want_nkhzp79chfabpqyh7e7pa8maf die_nkhzp79chfabpqyh7e7pa8maf \
+	version_ge_nkhzp79chfabpqyh7e7pa8maf
+export CFLAGS CXXFLAGS
+
+echo "CFLAGS=\"$CFLAGS\""
+echo "CXXFLAGS=\"$CXXFLAGS\""
+unset HAVE_SFL COMMON COMMON_WARNINGS C_WARNINGS CXX_WARNINGS
+test -f setflags.local && HAVE_SFL=1
+test "$HAVE_SFL" || echo "#!/bin/false" > setflags.local
+echo "# Settings from $(date):" >> setflags.local
+echo "CFLAGS=\"$CFLAGS\"" >> setflags.local
+echo "CXXFLAGS=\"$CXXFLAGS\"" >> setflags.local
+test "$HAVE_SFL" || echo "export CFLAGS CXXFLAGS" >> setflags.local
+unset HAVE_SFL

@@ -1,0 +1,11 @@
+group - Directory Information
+=============================
+
+Subdirectories of this directory represent the top-level collaboration
+directories of specific user account groups.
+
+Typically, only members of the respective groups have access to those
+directories and may read or create files there.
+
+The User Private Group (UPG) model implemented by this site exploits the
+advantages of working with /home/group/<groupname>.

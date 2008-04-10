@@ -1,0 +1,31 @@
+--blank-before-sizeof
+--blank-lines-after-procedures
+--braces-on-if-line
+--braces-on-struct-decl-line
+--break-before-boolean-operator
+--break-function-decl-args-end
+--case-indentation 0
+--continuation-indentation 3
+--cuddle-do-while
+--cuddle-else
+--declaration-indentation 0
+--dont-break-function-decl-args
+--dont-break-procedure-type
+--dont-break-procedure-type
+--dont-line-up-parentheses
+--ignore-newlines
+--indent-level 3
+--line-length 79
+--no-blank-lines-after-commas
+--no-blank-lines-after-declarations
+--no-blank-lines-before-block-comments
+--no-space-after-casts
+--no-space-after-function-call-names
+--no-space-after-parentheses
+--parameter-indentation 3
+--space-after-for
+--space-after-if
+--space-after-while
+--space-special-semicolon
+--swallow-optional-blank-lines
+--tab-size 8

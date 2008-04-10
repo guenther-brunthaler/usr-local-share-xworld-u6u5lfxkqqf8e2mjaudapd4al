@@ -1,0 +1,45 @@
+project - Directory Information
+===============================
+
+Subdirectories of this directory will be created by administrators upon user
+request for specific projects which are neither inherently user- nor
+group-specific.
+
+That is, those directories will relate to specific projects rather than being
+grouped according to permissions, membership or general topic.
+
+For instance, it is OK to create
+
+/home/project/our_openoffice_fork
+
+but clearly group-specific things should better go to
+
+/home/group/games/tips_and_tricks/
+
+(provided there is a group "games" in /etc/group) or rather to
+
+/home/topic/doc/selfhtml/
+/home/topic/clipart/
+/home/topic/wallpaper/
+
+where files cannot be associated with a specific project or set of users.
+
+In the User Private Group (UPG) model implemented by this site, actual
+projects are normally assigned to user account project groups, and related
+data will be placed in a /home/group subdirectory rather than in
+/home/project.
+
+The reason for /home/project to exist is if several user account groups work
+together on a larger basis.
+
+While only members of a specific project group have access to
+/home/group/<name>, anyone has access to /home/project/<name>.
+
+This allows the administrator to set up subdirectories of /home/project/<name>
+which are owned by specific project groups, and the members of those project
+groups can publish information there to see for others.
+
+For instance, a directory /home/project/foo/public_html/* might be used to
+publish the WWW contents for a project "foo", but the http server will
+typically not have access to the project's UPG collaboration directory
+/home/group/foo.

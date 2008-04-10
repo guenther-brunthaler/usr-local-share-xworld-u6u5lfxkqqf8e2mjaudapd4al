@@ -1,0 +1,43 @@
+mnt - Directory Information
+===========================
+
+Subdirectories of this directory will be created by administrators,
+automount-daemons or specialized mount-tools in order to serve as mount
+points.
+
+The mount-points will be visible for everyone, but of course filesystem
+permissions can be used to restrict access.
+
+Note that the FHS explictly disencourages the use of /mnt/<mountpoint> for
+such purposes: Firstly, /mnt is intended for the private use of user root only
+for use as a temporary mount point. Secondly, it shall be possible to use /mnt
+as a mountpoint directly rather than just a subdirectory of it. See
+
+http://www.pathname.com/fhs/
+
+for more details.
+
+So /mnt is out of question for serving as a base directory for mount points in
+a standard-compliant system, and this is where /home/mnt comes to the rescue.
+
+In cases where the names of mount-points should be kept strictly private, it
+might be a better idea to create the mount point in private home- or
+group-directories, e. g. $HOME/mnt/<mountpoint>.
+
+On the other hand, it is also possible to create a subdirectory here with
+restrictive permissions, and place the delicate mount points there:
+
+mkdir /home/mnt/secret
+chgrp losers /home/mnt/secret
+chmod o=,g+rsx /home/mnt/secret
+mkdir /home/mnt/secret/dieter_bohlen_songs/
+mkdir /home/mnt/secret/teletubbies_collection/
+mkdir /home/mnt/secret/msdn/
+mkdir /home/mnt/secret/sco_friendship_network/
+
+The mount-point directories in /home/mnt/* can be used for hard-disk-based
+mounts as well as for network-based mounts (e. g. NFS, SAMBA, SSHFS).
+
+Note, however, that it should not be used for removable media like floppies,
+CD-ROMs, DVDs or USB-drives, because the FHS standard defines such mount
+points belong into /media/*.

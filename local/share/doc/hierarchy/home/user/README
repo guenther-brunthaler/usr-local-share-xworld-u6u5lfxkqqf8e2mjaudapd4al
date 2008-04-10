@@ -1,0 +1,12 @@
+user - Directory Information
+============================
+
+Subdirectories of this directory represent the home directories of specific
+user accounts.
+
+In the hierarchy used by this site, /home/user/<username> serves the same
+purpose as /home/<username> does on a typical small system.
+
+By inserting an additional directory level between /home and <username>,
+additional useful directories such as /home/project can be added without
+violation of the Linux Filesystem Hierarchy Standard.

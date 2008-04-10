@@ -1,0 +1,9 @@
+topic - Directory Information
+=============================
+
+Subdirectories of this directory will be created by administrators upon user
+request for different areas of application which are neither inherently user-
+nor group- nor project-specific.
+
+That is, those directories will relate to specific issues or topics rather
+than being grouped according to permissions or membership.

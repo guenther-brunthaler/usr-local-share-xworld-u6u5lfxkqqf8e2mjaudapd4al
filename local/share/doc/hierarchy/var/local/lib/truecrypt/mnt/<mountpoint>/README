@@ -1,0 +1,23 @@
+Classified Hierarchy - Directory Information
+============================================
+
+The contents of this directory and all of its subdirectories are stored on
+securely encrypted disk partitions.
+
+It replicates the directory hierarchy of the / directory in a safe place.
+
+Users or groups which need to store classified or otherwise security-relevant
+data should have an administrator create a subdirectory here for them.
+
+Data stored within those directories will then be permanently encrypted and
+will only be decrypted transparently on-the-fly as the data is accessed by
+application.
+
+In other words, it will look and feel like normal directories to the user, but
+actually it's all strongly encrypted.
+
+When the system is shut down (such as a consequence of being getting stolen),
+the in-RAM-only decryption password will be lost.
+
+And when the system is rebooted later, the decryption password will not be
+known by the thief, and thus he cannot decipher the encrypted data.

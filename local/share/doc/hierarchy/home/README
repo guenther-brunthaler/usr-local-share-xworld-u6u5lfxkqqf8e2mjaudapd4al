@@ -1,0 +1,22 @@
+home - Directory Information
+============================
+
+This system does not use the /home directory as a direct base directory for
+the user account home directories.
+
+Those directories can be found in /home/user/* instead.
+
+The following additional subdirectories exist in ../home:
+
+user - user account home directories
+group - user account groups collaboration directories
+project - project-related inter-account collaboration directories
+topic - contents grouped by area of application
+mnt - mount points for nfs/samba or partitions of non-removable harddisks
+
+This organization is compliant with (or does at least not contradict) the
+Linux Filesystem Hierarchy Standard (FHS). See
+
+http://www.pathname.com/fhs/
+
+for more details.

@@ -1,0 +1,196 @@
+comment_char %
+escape_char  /
+
+% German Language Locale for Austria with Euro
+% Cloned from de_At@euro
+%  with "Februar" instead of "Feber".
+% Contact: Gu:nther Brunthaler
+% Email: not available
+% Language: de
+% Territory: AT
+% Option: euro
+% Date: 2006-08-06
+% Users: general
+% Charset: ISO-8859-15
+% Distribution and use is free, also
+% for commercial purposes.
+
+LC_IDENTIFICATION
+title        "German locale for Austria with Euro (Viennese variant)"
+source       ""
+address      ""
+contact      "G<U00FC>nther Brunthaler"
+email        "nomail@dontbugme.org"
+tel          ""
+fax          ""
+language     "German"
+territory    "Austria"
+audience     "Viennese users"
+application  ""
+abbreviation ""
+revision     "1.0"
+date         "2006-08-06"
+%
+category  "de_AT:2006";LC_IDENTIFICATION
+category  "de_AT:2006";LC_CTYPE
+category  "de_AT:2006";LC_COLLATE
+category  "de_AT:2006";LC_TIME
+category  "de_AT:2006";LC_NUMERIC
+category  "de_AT:2006";LC_MONETARY
+category  "de_AT:2006";LC_MESSAGES
+category  "de_AT:2006";LC_PAPER
+category  "de_AT:2006";LC_NAME
+category  "de_AT:2006";LC_ADDRESS
+category  "de_AT:2006";LC_TELEPHONE
+category  "de_AT:2006";LC_MEASUREMENT
+
+END LC_IDENTIFICATION
+
+LC_CTYPE
+copy "de_AT@euro"
+END LC_CTYPE
+
+LC_COLLATE
+copy "de_AT@euro"
+% Copy the template from ISO/IEC 14651
+% copy "iso14651_t1"
+END LC_COLLATE
+
+LC_MESSAGES
+yesexpr "^[jJyY].*"
+noexpr  "^[nN].*"
+END LC_MESSAGES
+
+LC_MONETARY
+int_curr_symbol           "EUR "
+currency_symbol           "<U20AC>"
+mon_decimal_point         ","
+mon_thousands_sep         "."
+mon_grouping              3;3
+positive_sign             ""
+negative_sign             "-"
+int_frac_digits           2
+frac_digits               2
+p_cs_precedes             1
+p_sep_by_space            1
+n_cs_precedes             1
+n_sep_by_space            1
+p_sign_posn               1
+n_sign_posn               1
+END LC_MONETARY
+
+LC_NUMERIC
+decimal_point             ","
+thousands_sep             "."
+grouping                  3;3
+END LC_NUMERIC
+
+LC_TIME
+abday   "Son";"Mon";"Die";"Mit";"Don";"Fre";"Sam"
+day     "Sonntag";"Montag";"Dienstag";"Mittwoch";"Donnerstag";/
+        "Freitag";"Samstag"
+abmon   "J<U00E4>n";"Feb";"M<U00E4>r";"Apr";"Mai";"Jun";"Jul";/
+        "Aug";"Sep";"Okt";"Nov";"Dez"
+mon     "J<U00E4>nner";"Februar";"M<U00E4>rz";"April";"Mai";/
+        "Juni";"Juli";"August";"September";"Oktober";/
+        "November";"Dezember"
+d_t_fmt "%a, %e. %b %Y %T %Z"
+d_fmt   "%Y-%m-%d"
+t_fmt   "%T"
+am_pm   "";""
+t_fmt_ampm ""
+date_fmt "%a %b %e %H:%M:%S %Z %Y"
+END LC_TIME
+
+LC_PAPER
+% This is the 14652 et_EE fddc-set definition for
+% the LC_PAPER category.
+%
+% height   297
+% width    210
+copy "de_AT@euro"
+END LC_PAPER
+
+LC_TELEPHONE
+% This is the 14652 et_EE fddc-set definition for
+% the LC_TELEPHONE category.
+%
+% %a	are code without prefix (prefix is often <0>, <2> in Estonia).
+% %A	are code including prefix (prefix is often <0>, <2> in Estonia).
+% %l	local number.
+% %c	country code
+%
+tel_int_fmt    "+%c (%a) %l"
+tel_dom_fmt    "(%a) %l"
+int_prefix     "43"
+int_select     "00"
+END LC_TELEPHONE
+
+LC_MEASUREMENT
+% This is the 14652 et_EE fddc-set definition for
+% the LC_MEASUREMENT category.
+%
+% NB not required by FDCC-set
+%
+% measurement  1
+% 1 = ISO 1000
+copy "de_AT@euro"
+END LC_MEASUREMENT
+
+LC_NAME
+% This is the 14652 et_EE fddc-set definition for
+% the LC_NAME category.
+%
+% Define the appropriate representation of a person's name and title.
+% The operand shall consist of a string, and can contain any combination
+% of characters and field descriptors.
+% In addition, the string can contain escape sequences defined below.
+% %f	Family names.
+% %F	Family names in uppercase.
+% %g	First given name.
+% %G	First given initial
+% %l	First given name with latin letters
+% %o	Other shorter name, eg. "Bill"
+% %m	Middle names.
+% %M	Middle initial
+% %p	Profession
+% %s	salutation, such as "Doctor"
+% %S	abbreviated salutation, such as Mr. or Dr.
+% %d	salutation using the FDCC-sets conventions, with
+%       1 for the name_gen, 2 for name_mr, 3 for name_mrs,
+%       4 for name_miss, 5 for name_ms
+% %t	if the preceding escape sequence resulted in an empty string,
+%       then the empty string, else a <space>
+name_fmt    "%d%t%g%t%m%t%f"
+END LC_NAME
+
+LC_ADDRESS
+% This is the 14652 et_EE fddc-set definition for
+% the LC_ADDRESS category.
+%
+% Define the appropriate representation of a postal address such as
+% street and city. The proper formatting of a person's name and title
+% is done with the "name_fmt" keyword of the LC_NAME category.
+% The operand shall consist of a string, and can contain any combination
+% of characters and field descriptors. In addition, the string can
+% contain escape sequences defined below.
+%
+% %a	C/O address.
+% %f	Firm name.
+% %d	department name.
+% %b	Building name
+% %s	street name
+% %h	house number or designation
+% %N	if any graphical characters have been specified then an end of line is made.
+% %t	if the preceding escape sequence resulted in an empty string, then the empty string, else a <space>
+% %r	room number, door designation
+% %e	floor number
+% %C	country designation
+% %z	zip number, postal code
+% %T	town, city
+% %c	country
+postal_fmt "%f%N%a%N%d%N%b%N%s %h %e %r%N%%z %T%N%c%N"
+country_ab2 "AT"
+country_ab3 "AUT"
+country_num 040
+END LC_ADDRESS
