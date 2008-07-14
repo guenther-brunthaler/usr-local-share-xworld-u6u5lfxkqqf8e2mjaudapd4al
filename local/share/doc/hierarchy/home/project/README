@@ -30,7 +30,8 @@ data will be placed in a /home/group subdirectory rather than in
 /home/project.
 
 The reason for /home/project to exist is if several user account groups work
-together on a larger basis.
+together on a larger basis or need to publish information for non-group
+members also.
 
 While only members of a specific project group have access to
 /home/group/<name>, anyone has access to /home/project/<name>.
@@ -39,7 +40,7 @@ This allows the administrator to set up subdirectories of /home/project/<name>
 which are owned by specific project groups, and the members of those project
 groups can publish information there to see for others.
 
-For instance, a directory /home/project/foo/public_html/* might be used to
-publish the WWW contents for a project "foo", but the http server will
-typically not have access to the project's UPG collaboration directory
-/home/group/foo.
+For instance, a directory /home/project/bar/doc/* might contain public
+documentation for a project "bar" (being maintained by a closed user-account
+group "foo"), while the actual development takes place in directory
+/home/group/foo/bar/* which is only accessible to members of group "foo".
