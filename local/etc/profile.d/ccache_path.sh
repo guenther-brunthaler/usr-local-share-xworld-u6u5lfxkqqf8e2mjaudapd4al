@@ -1,4 +1,4 @@
-# Customized the $PATH environment variable for the compiler chache, if any.
+# Customized the $PATH environment variable for the compiler cache, if any.
 
 
 # Returns true if $1 is part of $FEATURES in "/etc/make.conf".
