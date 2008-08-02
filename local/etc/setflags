@@ -54,6 +54,40 @@ want_nkhzp79chfabpqyh7e7pa8maf() {
 }
 
 
+testcode_nkhzp79chfabpqyh7e7pa8maf() {
+	local OPT
+	OPT=
+	while true; do
+		case $1 in
+			-*) OPT="$OPT${OPT+ }$1"; shift;;
+			*) break;;
+		esac
+	done
+	local SRC I OUT RC
+	I=1
+	while true; do
+		SRC="/tmp/conftest_${$}_$I.c"
+		test ! -e "$SRC" && break
+		I=`expr $I + 1`
+	done
+	I=1
+	while true; do
+		OUT="/tmp/conftest_${$}_$I.o"
+		test ! -e "$OUT" && break
+		I=`expr $I + 1`
+	done
+	while test $# -gt 0; do
+		printf '%s\n' "$1"
+		shift
+	done > "$SRC"
+	gcc $OPT -c -o "$OUT" "$SRC" > /dev/null 2>& 1
+	RC=$?
+	rm "$SRC"
+	test x$RC = x0 && rm "$OUT"
+	return $RC;
+}
+
+
 GCC_VERSION="$(gcc --version | head -1 | cut -d' ' -f3)"
 if [ -z "$GCC_VERSION" ]; then
 	die_nkhzp79chfabpqyh7e7pa8maf "Cannot determine GCC version!"
@@ -73,14 +107,15 @@ for CPU_ID in $(
 	' /proc/cpuinfo
 ); do
 	case "$CPU_ID" in
-           # Lookup from http://gentoo-wiki.com/Safe_Cflags
-           # /proc/cpuid: <vendor_id> <cpu family> <model> [ <stepping> ]
-           "AuthenticAMD 6 4") CPU_ARCH=athlon-tbird;;
-           "AuthenticAMD 6 6") CPU_ARCH=athlon-xp;;
-           "AuthenticAMD 15 47") CPU_ARCH=athlon64;;
-           "GenuineIntel 6 6") CPU_ARCH=pentium2;;
-           "GenuineIntel 15 2") CPU_ARCH=pentium4;;
-           "GenuineIntel 15 4") CPU_ARCH=nocona;;
+		# Lookup from http://gentoo-wiki.com/Safe_Cflags
+		# /proc/cpuid: <vendor_id> <cpu family> <model> [ <stepping> ]
+		"AuthenticAMD 15 47") CPU_ARCH=athlon64;;
+		"AuthenticAMD 16 2") CPU_ARCH=k8;;
+		"AuthenticAMD 6 4") CPU_ARCH=athlon-tbird;;
+		"AuthenticAMD 6 6") CPU_ARCH=athlon-xp;;
+		"GenuineIntel 15 2") CPU_ARCH=pentium4;;
+		"GenuineIntel 15 4") CPU_ARCH=nocona;;
+		"GenuineIntel 6 6") CPU_ARCH=pentium2;;
 	esac
 done
 IFS="$OLD_IFS"
@@ -96,10 +131,19 @@ if [ -n "$CPU_ARCH" ]; then
 	fi
 	unset CPU_ARCH
 fi
-COMMON_WARNINGS="-Wall -W -pedantic -Wimplicit -Wreturn-type"
+COMMON_WARNINGS="-Werror -Wall -W -pedantic -Wimplicit -Wreturn-type"
 COMMON_WARNINGS="$COMMON_WARNINGS -Wunused -Wpointer-arith -Wundef"
-COMMON_WARNINGS="$COMMON_WARNINGS -Wwrite-strings -Wconversion -Wno-multichar"
-COMMON_WARNINGS="$COMMON_WARNINGS -Wredundant-decls -Werror"
+COMMON_WARNINGS="$COMMON_WARNINGS -Wwrite-strings -Wno-multichar"
+if
+	testcode_nkhzp79chfabpqyh7e7pa8maf \
+		$COMMON_WARNINGS -Wconversion \
+		'#include <stddef.h>' \
+		'extern void f(size_t);' \
+		'void g(void){f(0);}'
+then
+	COMMON_WARNINGS="$COMMON_WARNINGS -Wconversion"
+fi
+COMMON_WARNINGS="$COMMON_WARNINGS -Wredundant-decls"
 if version_ge_nkhzp79chfabpqyh7e7pa8maf "$GCC_VERSION" 3.4.5; then
 	COMMON_WARNINGS="$COMMON_WARNINGS -Winit-self -Wextra"
 fi
@@ -136,7 +180,9 @@ if test $# -gt 0 && want_nkhzp79chfabpqyh7e7pa8maf "add flags '$@'"; then
 	CFLAGS="$CFLAGS $@"
 fi
 unset -f want_nkhzp79chfabpqyh7e7pa8maf die_nkhzp79chfabpqyh7e7pa8maf \
-	version_ge_nkhzp79chfabpqyh7e7pa8maf
+	version_ge_nkhzp79chfabpqyh7e7pa8maf \
+	testcode_nkhzp79chfabpqyh7e7pa8maf
+
 export CFLAGS CXXFLAGS
 
 echo "CFLAGS=\"$CFLAGS\""
