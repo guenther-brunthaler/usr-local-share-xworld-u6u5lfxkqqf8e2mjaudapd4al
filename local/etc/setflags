@@ -1,4 +1,4 @@
-#!/bin/false
+#! /bin/false
 # Customized compiler settings.
 # 'source' it from your shell; do not just execute.
 
@@ -131,10 +131,33 @@ if [ -n "$CPU_ARCH" ]; then
 	fi
 	unset CPU_ARCH
 fi
-COMMON_WARNINGS="-Werror -Wall -W -pedantic -Wimplicit -Wreturn-type"
+COMMON_WARNINGS="-Wall"
+if
+	# Problem:
+	# gcc-4.1.2 makes autoconf-2.6.1 builtin test complain:
+	# warning: conflicting types for built-in function 'vprintf'
+	# With -Werror, this will also fail the autoconf test,
+	# which is not acceptable.
+	testcode_nkhzp79chfabpqyh7e7pa8maf \
+		$COMMON_WARNINGS -Werror \
+		'#undef vprintf' \
+		'#ifdef __cplusplus' \
+		'extern "C"' \
+		'#endif' \
+		'char vprintf();' \
+		'int main() { return vprintf(); return 0; }'
+then
+	COMMON_WARNINGS="$COMMON_WARNINGS -Werror"
+fi
+COMMON_WARNINGS="$COMMON_WARNINGS -W -pedantic -Wimplicit -Wreturn-type"
 COMMON_WARNINGS="$COMMON_WARNINGS -Wunused -Wpointer-arith -Wundef"
 COMMON_WARNINGS="$COMMON_WARNINGS -Wwrite-strings -Wno-multichar"
 if
+	# Problem:
+	# gcc-4.1.2 on AMD64 complains:
+	# "warning: passing argument 1 of 'f' with different width due
+	# to prototype", i. e. and "int" will no longer be converted
+	# to a "size_t" without warnings! We do not like that at all.
 	testcode_nkhzp79chfabpqyh7e7pa8maf \
 		$COMMON_WARNINGS -Wconversion \
 		'#include <stddef.h>' \
