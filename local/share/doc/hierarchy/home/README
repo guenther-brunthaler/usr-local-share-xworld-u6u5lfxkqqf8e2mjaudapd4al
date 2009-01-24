@@ -13,6 +13,7 @@ group - user account groups collaboration directories
 project - project-related inter-account collaboration directories
 topic - contents grouped by area of application
 mnt - mount points for nfs/samba or partitions of non-removable harddisks
+user2user - for free data exchange between all users (see "u2u-mkdir --help")
 
 This directory layout is compliant with (or does at least not contradict) the
 Linux Filesystem Hierarchy Standard (FHS). See
