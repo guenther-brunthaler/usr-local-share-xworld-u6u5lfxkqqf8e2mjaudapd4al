@@ -107,10 +107,10 @@ for CPU_ID in $(
 	' /proc/cpuinfo
 ); do
 	case "$CPU_ID" in
-		# Lookup from http://gentoo-wiki.com/Safe_Cflags
+		# Lookup from http://en.gentoo-wiki.com/wiki/Safe_Cflags
 		# /proc/cpuid: <vendor_id> <cpu family> <model> [ <stepping> ]
 		"AuthenticAMD 15 47") CPU_ARCH=athlon64;;
-		"AuthenticAMD 16 2") CPU_ARCH=k8;;
+		"AuthenticAMD 16 2") CPU_ARCH=amdfam10;;
 		"AuthenticAMD 6 4") CPU_ARCH=athlon-tbird;;
 		"AuthenticAMD 6 6") CPU_ARCH=athlon-xp;;
 		"GenuineIntel 15 2") CPU_ARCH=pentium4;;
