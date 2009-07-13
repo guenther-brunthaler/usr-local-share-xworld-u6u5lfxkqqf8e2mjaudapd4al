@@ -7,7 +7,7 @@ if [ "$EUID" = "0" ] || [ "$USER" = "root" ]; then
 	# in a SGID project-directory owned by the group.
 	umask 022
 else
-	# User's use the UPG ("user private group") security model
+	# Users use the UPG ("user private group") security model
 	# on this site.
 	# This allows other group members full r/w access
 	# in a SGID project-directory owned by the group.
