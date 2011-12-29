@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Name=SSH Key Agent
+Name[de]=SSH Schlüssel-Agent
+Comment=Caches loaded SSH-keys in memory, avoiding to re-enter the key password for every single usage.
+Comment[de]=Hält geladene SSH-Schlüssel im Speicher damit nicht bei jeder Verwendung erneut nach deren Passwort gefragt werden muss.
+TryExec=/usr/bin/ssh-agent
+Exec=/usr/bin/ssh-agent
+Hidden=true

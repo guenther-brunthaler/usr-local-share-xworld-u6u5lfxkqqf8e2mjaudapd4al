@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Name=Add SSH Keys
+Name[de]=SSH-Schlüssel laden
+Comment=Load SSH keys from ~/.ssh/* automatically on startup.
+Comment[de]=Beim Start automatisch SSH-Schlüssel aus ~/.ssh/* laden.
+TryExec=/usr/bin/ssh-add
+Exec=/usr/bin/ssh-add
+Hidden=true
