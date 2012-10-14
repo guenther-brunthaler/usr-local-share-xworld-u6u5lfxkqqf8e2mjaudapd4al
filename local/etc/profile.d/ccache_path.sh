@@ -1,10 +1,10 @@
 # Customized the $PATH environment variable for the compiler cache, if any.
 
 
-# Returns true if $1 is part of $FEATURES in "/etc/make.conf".
+# Returns true if $1 is part of $FEATURES in "/etc/portage/make.conf".
 is_feature_enabled() {
 	local FEATURES FEATURE
-	FEATURES="`. /etc/make.conf; echo $FEATURES`"
+	FEATURES="`. /etc/portage/make.conf; echo $FEATURES`"
 	for FEATURE in $FEATURES; do
 		test "$FEATURE" = "$1" && return
 	done
