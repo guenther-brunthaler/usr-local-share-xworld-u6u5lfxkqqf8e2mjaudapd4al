@@ -1,31 +1,26 @@
 #! /bin/false
 # Add "xworld"-site binaries to $PATH.
 
-
-PATH=`(
-	OPATH=$PATH
-	PATH=/sbin/:/bin:/usr/sbin:/usr/bin
+setup_j10k7jchg30nz1gd5gpc46ufr() {
+	local sub issu
 	set --
-	# Add significant directory name components in the order to be added.
-	test x\`id -u\` = x0 && set -- "$@" sbin
-	set -- "$@" bin
-	NPATH=
-	for BIN in "$@"; do
-		# Subdirectories to be added in the order to be added.
-		# But in any case, only directories which actually exist
-		# will be added!
-		for SUB in \
-			machine_local \
-			site_internal \
-			xworld_internal \
-			xworld
-		do
-			NEW=/usr/local/$BIN/$SUB
-			test -d "$NEW" || continue
-			NPATH=$NPATH${NPATH:+:}$NEW
-		done
+	case `id -u` in
+		0) issu=Y;;
+		*) issu=
+	esac
+	# These paths will be added in the *reverse* order specified here,
+	# and only if they actually exist.
+	for sub in \
+		machine_local \
+		site_internal \
+		xworld_internal \
+		xworld
+	do
+		test -n "$issu" && set -- "$@" --append /usr/local/sbin/$sub
+		set -- "$@" --append /usr/local/bin/$sub
 	done
-	test -n "$OPATH" && test -n "$NPATH" && NPATH=$NPATH:
-	printf "%s\n" "$NPATH$OPATH"
-)`
-export PATH
+	. /usr/local/libexec/xworld/sh/path_hyec3v5m8kd1vjs8k7d1wce62.sh
+	export PATH
+}
+setup_j10k7jchg30nz1gd5gpc46ufr
+unset -f setup_j10k7jchg30nz1gd5gpc46ufr
