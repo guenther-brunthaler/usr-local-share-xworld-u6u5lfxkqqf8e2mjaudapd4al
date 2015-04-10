@@ -2,17 +2,28 @@
 # Add "xworld"-site binaries to $PATH.
 
 setup_j10k7jchg30nz1gd5gpc46ufr() {
-	local sub issu
+	local sub issu dist
 	set --
 	case `id -u` in
 		0) issu=Y;;
 		*) issu=
 	esac
-	# These paths will be added in the *reverse* order specified here,
-	# and only if they actually exist.
+	dist=`
+		exec 2> /dev/null
+		lsb_release -i | tr A-Z a-z | sed '
+			s,.*:[^a-z0-9]*,,
+			s/[^0-9a-z]/_/g
+			s/__*/_/g
+			s/_$//
+		'
+	` || dist=
+	test -n "$dist" && dist=xworld_$dist
+	# These paths will be added in the order specified here, and only if
+	# they actually exist.
 	for sub in \
 		machine_local \
 		site_internal \
+		$dist \
 		xworld_internal \
 		xworld
 	do
