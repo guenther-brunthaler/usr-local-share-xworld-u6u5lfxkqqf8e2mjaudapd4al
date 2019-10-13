@@ -1,0 +1,13 @@
+Site-specific customizations of shell .profile
+
+The directory containing this README file should have been
+symlinked as /usr/local/etc/site.
+
+In order to enable the framework for including site-specific as
+well as per-user custom settings in your ~/.profile, source (not
+execute!) the shell snippet /usr/local/etc/site/site-goodies from
+there.
+
+This script will basically source shell snippets snippets from
+different locations in the right order, saving you the trouble to
+do it yourself.
