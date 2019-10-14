@@ -1,6 +1,6 @@
 The site-snippets framework
 ===========================
-Version 2019.287.3
+Version 2019.287.4
 
 This framework allows to globally share or site-locally augment
 site-specific customizations of your login-shell's ~/.profile
@@ -101,7 +101,24 @@ In order to set up and prepare a customizable
 $ mkdir /usr/local/etc/site
 $ cd /usr/local/etc/site
 $ ln -s /usr/local/share/myrealm/local/etc/site shared
-$ cp -Rs -- "`pwd`"/shared/* "`pwd`"/
+$ for sh in shared/*
+do
+	ln -s -- "$sh"
+done
+$ d=profile.d.avail && rm $d && mkdir $d && (
+	cd $d
+	for sh in ../shared/$d/*
+	do
+		ln -s -- "$sh"
+	done
+)
+$ d=profile.d.recommended && rm $d && mkdir $d && (
+	cd $d
+	for sh in ../shared/$d/*
+	do
+		cp -P -- "$sh" .
+	done
+)
 
 After this, the administrator should really convert all the
 symlinks in /usr/local/etc/site from absolute ones into relative
@@ -137,6 +154,10 @@ directory, she does the following:
 $ mkdir ~/.profile.d
 $ cd ~/.profile.d
 $ ln -s ~/.config/site-pulmfbx1uutp14crtpr96c4ti site
+
+After creating that symlink, also try to convert it into a
+relative one for the same reasons as explained in the previous
+example.
 
 A normal user is never intended to customize or augment the
 contents of ~/.profile.d/site, so no copying of the contents is
