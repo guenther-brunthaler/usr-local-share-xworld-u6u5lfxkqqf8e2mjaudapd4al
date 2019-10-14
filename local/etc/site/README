@@ -1,6 +1,6 @@
 The site-snippets framework
 ===========================
-Version 2019.287.4
+Version 2019.287.5
 
 This framework allows to globally share or site-locally augment
 site-specific customizations of your login-shell's ~/.profile
@@ -88,8 +88,32 @@ add additional files or remove unwanted symlinks, thus
 customizing this "site"-subdirectory.
 
 
-Example 1: Site administrator
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Example 1: Site administrator does not need to customize
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In this example, the shared branch has been checked out in such a
+way that the template for the /usr/local/etc/site is available at
+/usr/local/share/myrealm/local/etc/site.
+
+The administrator wants to use this template unmodified, no
+customization intended at the moment. In this case, creating
+a symlink is all that is required:
+
+$ ln -s /usr/local/share/myrealm/local/etc/site /usr/local/etc/site 
+
+After creation, the administrator should really convert this
+symlink from an absolute ones into a relative ones.
+
+Absolute symlinks should never be used without a good reason,
+because they will stop working when the whole filesystem
+containing the symlink is mounted at an unexpected location, such
+as when mounting from a rescue system. Relative symlinks will
+still work in such a case, provided the relative symlinks do not
+cross filesystem boundaries.
+
+
+Example 2: Site administrator needs to customize
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In this example, the shared branch has been checked out in such a
 way that the template for the /usr/local/etc/site is available at
@@ -126,15 +150,10 @@ ones. Except for the /usr/local/etc/site/shared symlink itself,
 all the remaining symlinks that have been created should be made
 relative to the /usr/local/etc/site/shared symlink.
 
-Absolute symlinks should never be used without a good reason,
-because they will stop working when the whole filesystem
-containing the symlink is mounted at an unexpected location, such
-as when mounting from a rescue system. Relative symlinks will
-still work in such a case, provided the relative symlinks do not
-cross filesystem boundaries.
+See example 1 for some reasons why to avoid absolute symlinks.
 
 
-Example 2: Individual user
+Example 3: Individual user
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In this example, the site administrator did not set up a
@@ -156,8 +175,7 @@ $ cd ~/.profile.d
 $ ln -s ~/.config/site-pulmfbx1uutp14crtpr96c4ti site
 
 After creating that symlink, also try to convert it into a
-relative one for the same reasons as explained in the previous
-example.
+relative one for the same reasons as explained in example 1.
 
 A normal user is never intended to customize or augment the
 contents of ~/.profile.d/site, so no copying of the contents is
