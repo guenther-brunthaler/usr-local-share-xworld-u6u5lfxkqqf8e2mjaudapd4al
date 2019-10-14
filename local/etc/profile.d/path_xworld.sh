@@ -1,7 +1,7 @@
 #! /bin/false
 # Add "xworld"-site binaries to $PATH.
 #
-# Version 2019.285
+# Version 2019.287
 # Copyright (c) 2019 Guenther Brunthaler. All rights reserved.
 #
 # This script is free software.
@@ -76,6 +76,7 @@ do
 	fi
 done << EOF
 $HOME
+$HOME/.local
 /usr/local
 /usr
 +
