@@ -1,6 +1,6 @@
 The site-snippets framework
 ===========================
-Version 2019.287.5
+Version 2019.287.6
 
 This framework allows to globally share or site-locally augment
 site-specific customizations of your login-shell's ~/.profile
@@ -153,8 +153,34 @@ relative to the /usr/local/etc/site/shared symlink.
 See example 1 for some reasons why to avoid absolute symlinks.
 
 
-Example 3: Individual user
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Example 3: Individual user using administrator-provided setup
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In this example, the site administrator did set up a
+/usr/local/etc/site directory, and the user just wants to use it.
+
+In order to set up and prepare a customizable ~/.profile.d
+directory, the user does the following:
+
+$ mkdir -m 700 ~/.profile.d
+$ cd ~/.profile.d
+$ ln -s /usr/local/etc/site ~/.profile.d/
+$ echo >> ~/.profile \
+	'. ~/.profile.d/site/profile.d.avail/00user_snippets.sh'
+
+After creating that symlink, also try to convert it into a
+relative one for the same reasons as explained in example 1.
+
+A normal user is never intended to customize or augment the
+contents of ~/.profile.d/site, so no copying of the contents is
+necessary in this case.
+
+User-specific *.sh snippets will be created directly in the
+~/.profile.d directory instead.
+
+
+Example 4: Individual user installing independent local setup
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In this example, the site administrator did not set up a
 /usr/local/etc/site, but the user still wants to use the
@@ -170,9 +196,11 @@ there is no obligation.)
 In order to set up and prepare a customizable ~/.profile.d
 directory, she does the following:
 
-$ mkdir ~/.profile.d
+$ mkdir -m 700 ~/.profile.d
 $ cd ~/.profile.d
 $ ln -s ~/.config/site-pulmfbx1uutp14crtpr96c4ti site
+$ echo >> ~/.profile \
+	'. ~/.profile.d/site/profile.d.avail/00user_snippets.sh'
 
 After creating that symlink, also try to convert it into a
 relative one for the same reasons as explained in example 1.
