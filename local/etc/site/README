@@ -1,6 +1,6 @@
 The site-snippets framework
 ===========================
-Version 2019.287.2
+Version 2019.287.3
 
 This framework allows to globally share or site-locally augment
 site-specific customizations of your login-shell's ~/.profile
@@ -103,9 +103,11 @@ $ cd /usr/local/etc/site
 $ ln -s /usr/local/share/myrealm/local/etc/site shared
 $ cp -Rs -- "`pwd`"/shared/* "`pwd`"/
 
-After this, the administrator should really run a script over all
-the symlinks in /usr/local/etc/site, converting them from
-absolute ones into relative symlinks.
+After this, the administrator should really convert all the
+symlinks in /usr/local/etc/site from absolute ones into relative
+ones. Except for the /usr/local/etc/site/shared symlink itself,
+all the remaining symlinks that have been created should be made
+relative to the /usr/local/etc/site/shared symlink.
 
 Absolute symlinks should never be used without a good reason,
 because they will stop working when the whole filesystem
