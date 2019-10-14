@@ -1,6 +1,6 @@
 The site-snippets framework
 ===========================
-Version 2019.287
+Version 2019.287.1
 
 This framework allows to globally share or site-locally augment
 site-specific customizations of your login-shell's ~/.profile
@@ -60,7 +60,7 @@ unset sh
 Alternatively, there is also a "profile.d.avail"-snippet
 available which does exactly that, which you could source as
 
-. ~/.profile.d/site/profile.d.avail/50user_snippets.sh
+. ~/.profile.d/site/profile.d.avail/00user_snippets.sh
 
 within your ~/.profile login-shell initialization script.
 
