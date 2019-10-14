@@ -1,6 +1,6 @@
 The site-snippets framework
 ===========================
-Version 2019.287.1
+Version 2019.287.2
 
 This framework allows to globally share or site-locally augment
 site-specific customizations of your login-shell's ~/.profile
@@ -93,15 +93,15 @@ Example 1: Site administrator
 
 In this example, the shared branch has been checked out in such a
 way that the template for the /usr/local/etc/site is available at
-/usr/local/etc/myrealm/local/etc/site.
+/usr/local/share/myrealm/local/etc/site.
 
 In order to set up and prepare a customizable
 /usr/local/etc/site, she does the following:
 
 $ mkdir /usr/local/etc/site
 $ cd /usr/local/etc/site
-$ ln -s /usr/local/etc/myrealm/local/etc/site shared
-$ cp -Rs -- "`pwd`"/shared/* "`pwd`"/shared/
+$ ln -s /usr/local/share/myrealm/local/etc/site shared
+$ cp -Rs -- "`pwd`"/shared/* "`pwd`"/
 
 After this, the administrator should really run a script over all
 the symlinks in /usr/local/etc/site, converting them from
